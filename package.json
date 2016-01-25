@@ -1,0 +1,26 @@
+{
+  "name": "winwin-quiz",
+  "version": "0.0.1",
+  "description": "WinWin quiz",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yatsyukv/winwin-quiz.git"
+  },
+  "author": "Seva Yatsyuk",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/yatsyukv/winwin-quiz/issues"
+  },
+  "dependencies": {
+    "vue": "~1.0.15",
+    "vue-resource": "~0.7.0",
+    "bootstrap": "~3.3.6"
+  },
+  "devDependencies": {
+    "gulp": "~3.9.0"
+  }
+}
