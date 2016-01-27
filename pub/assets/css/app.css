@@ -1,0 +1,34 @@
+#winwin-quiz{
+    margin: 5px;
+}
+
+#winwin-quiz button{
+    float: right;
+    width: 200px;
+}
+#winwin-quiz .alert{
+    margin: 10px;
+
+}
+
+.list-group-item-success.disabled, .list-group-item-success.disabled:hover, .list-group-item-success.disabled:focus{
+    background-color: #dff0d8
+}
+.list-group-item-danger.disabled, .list-group-item-danger.disabled:hover, .list-group-item-danger.disabled:focus{
+    background-color: #ebcccc;
+}
+
+/* always present */
+.expand-transition {
+    transition: all .3s ease;
+    background-color: #eee;
+    overflow: hidden;
+}
+
+/* .expand-enter defines the starting state for entering */
+/* .expand-leave defines the ending state for leaving */
+.expand-enter, .expand-leave {
+    height: 0;
+    padding: 0 10px;
+    opacity: 0;
+}

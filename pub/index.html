@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>WinWin Quiz</title>
@@ -11,7 +11,29 @@
 </head>
 <body>
 <div id="winwin-quiz">
-    Here Be Dragons...
+        <div class="panel panel-info">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Please choose the correct answer:</div>
+            <div class="panel-body">
+                <p class="question-subtitle">Question #{{ question.number }} of {{ question_count }}:</p> <p class="question">{{question.text}}</p>
+                <ol class="list-group">
+                    <a href="#" class="list-group-item" v-bind:class="answerCssClass($index)" v-for="answer in answers" v-on:click="chooseAnswer($index)">
+                        {{ answer.text }}
+                    </a>
+                </ol>
+                <button type="button" v-bind:disabled="!current_question_state.answer_given" v-on:click="nextQuestion" class="btn btn-lg btn-primary">{{test_progress.button_label}}</button>
+            </div>
+            <div class="alert alert-danger" v-if="triggerErrorMessage()" transition="expand" role="alert">
+                <strong>We're sorry :(</strong> But that's not the correct answer...
+            </div>
+
+            <div class="alert alert-success" v-if="triggerSuccessMessage()" transition="expand" role="alert">
+                <strong>Well done!</strong> The answer is correct :)
+            </div>
+        </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
