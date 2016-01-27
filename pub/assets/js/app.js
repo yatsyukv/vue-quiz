@@ -1,36 +1,3 @@
-var questionData = [
-    {
-        'number': 1,
-        'text': 'I ____ 22 years old.',
-        'answers': [
-            {'text': 'am'},
-            {'text': 'is'},
-            {'text': 'are'},
-        ],
-        'answer_key': 'am'
-    },
-    {
-        'number': 2,
-        'text': '____ you live in Paris?',
-        'answers': [
-            {'text': 'Does'},
-            {'text': 'Do'},
-            {'text': 'Are'},
-        ],
-        'answer_key': 'Do'
-    },
-    {
-        'number': 3,
-        'text': 'He often ____ to the cinema.',
-        'answers': [
-            {'text': 'gos'},
-            {'text': 'go'},
-            {'text': 'goes'},
-        ],
-        'answer_key': 'goes'
-    },
-];
-
 window.onload = function () {
 
     window.vueTest = new Vue({
@@ -43,12 +10,18 @@ window.onload = function () {
                 'answered': 0,
                 'correct': 0,
                 'failed': 0,
-                'button_label': "Next Question >"
+                'level_title': ''
             },
             current_question_state: {
                 'question_number': 0,
                 'answer_given': false,
                 'answer_correct': false,
+            },
+            test_is_complete: false,
+            contact_data: {
+                'email': '',
+                'telephone': '',
+                'name': ''
             }
         },
         methods: {
@@ -95,19 +68,10 @@ window.onload = function () {
             nextQuestion: function (e) {
 
                 if (++this.current_question_state.question_number >= this.question_count) {
-                    console.log(this.test_progress);
                     return;
                 }
-
-                if (this.question_count - this.current_question_state.question_number === 1) {
-                    //TODO: this sucks :(
-                    this.test_progress.button_label = 'Get My Results!'
-                }
-
                 this.current_question_state.answer_given = false;
                 this.current_question_state.answer_correct = false;
-
-                console.log(this.current_question_state);
 
                 this.question = questionData[this.current_question_state.question_number];
                 this.answers = questionData[this.current_question_state.question_number].answers;
@@ -115,11 +79,57 @@ window.onload = function () {
                 return;
             },
 
+            isLastQuestion: function () {
+                if (this.question_count - this.current_question_state.question_number === 1) {
+                    return true;
+                }
+                return false;
+            },
+
+            showResults: function (e) {
+                this.test_is_complete = true;
+                this._evaluateResult();
+                return;
+            },
+
+            _evaluateResult: function () {
+                if (this.test_progress.correct <= 10) {
+                    this.test_progress.level_title = 'Beginner';
+                }
+                if (this.test_progress.correct >= 15) {
+                    this.test_progress.level_title = 'Elementary';
+                }
+                if (this.test_progress.correct >= 25) {
+                    this.test_progress.level_title = 'Intermediate';
+                }
+                if (this.test_progress.correct == this.question_count) {
+                    this.test_progress.level_title = 'Upper-Intermediate';
+                }
+                return;
+            },
+
             _answerIsCorrect: function (answer_idx) {
                 return this.question.answer_key === this.question.answers[answer_idx].text;
             },
 
-
+            submitContact: function (e) {
+                e.stopPropagation();
+                console.log(e);
+                var submitData = {
+                    'test_data': JSON.stringify(this.test_progress),
+                    'contact_data': JSON.stringify(this.contact_data)
+                };
+                console.log(submitData);
+                this.$http.post('/test/submit', submitData, function (data) {
+                    if (data.result === 'success') {
+                    } else {
+                        console.log(data);
+                    }
+                    ;
+                }).catch(function (data) {
+                    console.log(data);
+                });
+            },
         }
     });
 }

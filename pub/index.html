@@ -1,39 +1,76 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>WinWin Quiz</title>
     <script type="text/javascript" src="./assets/js/lib/vue/vue.js"></script>
     <script type="text/javascript" src="./assets/js/lib/vue-resource/vue-resource.js"></script>
+    <script type="text/javascript" src="./assets/js/q.js"></script>
     <script type="text/javascript" src="./assets/js/app.js"></script>
     <link rel="stylesheet" href="./assets/css/lib/bootstrap/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="./assets/css/app.css" type="text/css">
 </head>
 <body>
 <div id="winwin-quiz">
-        <div class="panel panel-info">
-            <!-- Default panel contents -->
-            <div class="panel-heading">Please choose the correct answer:</div>
-            <div class="panel-body">
-                <p class="question-subtitle">Question #{{ question.number }} of {{ question_count }}:</p> <p class="question">{{question.text}}</p>
-                <ol class="list-group">
-                    <a href="#" class="list-group-item" v-bind:class="answerCssClass($index)" v-for="answer in answers" v-on:click="chooseAnswer($index)">
-                        {{ answer.text }}
-                    </a>
-                </ol>
-                <button type="button" v-bind:disabled="!current_question_state.answer_given" v-on:click="nextQuestion" class="btn btn-lg btn-primary">{{test_progress.button_label}}</button>
-            </div>
-            <div class="alert alert-danger" v-if="triggerErrorMessage()" transition="expand" role="alert">
-                <strong>We're sorry :(</strong> But that's not the correct answer...
-            </div>
+    <div class="panel panel-info quiz" v-if="!test_is_complete" transition="expand" >
+        <!-- Default panel contents -->
+        <div class="panel-heading">Please choose the correct answer:</div>
+        <div class="panel-body">
+            <p class="question-subtitle">Question #{{ question.number }} of {{ question_count }}:</p>
 
-            <div class="alert alert-success" v-if="triggerSuccessMessage()" transition="expand" role="alert">
-                <strong>Well done!</strong> The answer is correct :)
-            </div>
+            <p class="question">{{question.text}}</p>
+            <ol class="list-group">
+                <a href="#" class="list-group-item" v-bind:class="answerCssClass($index)" v-for="answer in answers"
+                   v-on:click="chooseAnswer($index)">
+                    {{ answer.text }}
+                </a>
+            </ol>
+            <button type="button" v-if="!isLastQuestion()" v-bind:disabled="!current_question_state.answer_given"
+                    v-on:click="nextQuestion" class="btn btn-lg btn-primary">Next Question >
+            </button>
+            <button type="button" v-if="isLastQuestion()" v-bind:disabled="!current_question_state.answer_given"
+                    v-on:click="showResults" class="btn btn-lg btn-primary">Get My Results!
+            </button>
         </div>
+        <div class="alert alert-danger" v-if="triggerErrorMessage()" transition="expand" role="alert">
+            <strong>We're sorry :(</strong> But that's not the correct answer...
+        </div>
+
+        <div class="alert alert-success" v-if="triggerSuccessMessage()" transition="expand" role="alert">
+            <strong>Well done!</strong> The answer is correct :)
         </div>
     </div>
 
+    <div class="panel panel-info results-form" v-if="test_is_complete" transition="expand" >
+        <!-- Default panel contents -->
+        <div class="panel-heading">Поздравляем! Вы успешно прошли тест.</div>
+        <div class="panel-body">
+            <p>Ваш уровень:</p>
+
+            <h3>{{test_progress.level_title}}</h3>
+            <h5>Оставьте ваши контактные данные для получения персональной 7% скидки на любой курс WinWin.</h5>
+
+            <div class="text-contact-form">
+                <form action="#">
+                    <div class="form-group input-group input-group-lg">
+                        <span class="input-group-addon" id="name">Имя</span>
+                        <input v-model="contact_data.name" type="text" name="name" class="form-control" placeholder="Александр Сергеевич Пушкин" aria-describedby="sizing-addon1" required>
+                    </div>
+
+                    <div class="form-group input-group input-group-lg">
+                        <span class="input-group-addon" id="tel">Телефон</span>
+                        <input v-model="contact_data.telephone" type="text" class="form-control" placeholder="+380XX-XXX-XX-XX" aria-describedby="sizing-addon1" required>
+                    </div>
+
+                    <div class="form-group input-group input-group-lg">
+                        <span class="input-group-addon" id="email">@email</span>
+                        <input v-model="contact_data.email" type="email" class="form-control" placeholder="myaddress@example.com" aria-describedby="sizing-addon1" required>
+                    </div>
+                    <button type="submit" v-on:click="submitContact" class="btn btn-lg btn-primary">Скидка - это хорошо!</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
