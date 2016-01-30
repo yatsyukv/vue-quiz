@@ -113,7 +113,7 @@ window.onload = function () {
             },
 
             submitContact: function (e) {
-                e.stopPropagation();
+                e.preventDefault();
                 console.log(e);
                 var submitData = {
                     'test_data': JSON.stringify(this.test_progress),
@@ -123,10 +123,11 @@ window.onload = function () {
                 this.$http.post('/test/submit', submitData, function (data) {
                     if (data.result === 'success') {
                     } else {
+                        alert('Ой! Что-то пошло не так :( Пожалуйста, попробуйте еще раз.');
                         console.log(data);
                     }
-                    ;
                 }).catch(function (data) {
+                    alert('Ой! Что-то пошло не так :( Пожалуйста, попробуйте еще раз.');
                     console.log(data);
                 });
             },

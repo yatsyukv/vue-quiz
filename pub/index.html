@@ -5,7 +5,7 @@
     <title>WinWin Quiz</title>
     <script type="text/javascript" src="./assets/js/lib/vue/vue.js"></script>
     <script type="text/javascript" src="./assets/js/lib/vue-resource/vue-resource.js"></script>
-    <script type="text/javascript" src="./assets/js/q.js"></script>
+    <script type="text/javascript" src="./assets/js/q_test.js"></script>
     <script type="text/javascript" src="./assets/js/app.js"></script>
     <link rel="stylesheet" href="./assets/css/lib/bootstrap/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="./assets/css/app.css" type="text/css">
@@ -51,7 +51,7 @@
             <h5>Оставьте ваши контактные данные для получения персональной 7% скидки на любой курс WinWin.</h5>
 
             <div class="text-contact-form">
-                <form action="#">
+                <form v-on:submit.prevent="submitContact" action="#">
                     <div class="form-group input-group input-group-lg">
                         <span class="input-group-addon" id="name">Имя</span>
                         <input v-model="contact_data.name" type="text" name="name" class="form-control" placeholder="Александр Сергеевич Пушкин" aria-describedby="sizing-addon1" required>
@@ -66,7 +66,7 @@
                         <span class="input-group-addon" id="email">@email</span>
                         <input v-model="contact_data.email" type="email" class="form-control" placeholder="myaddress@example.com" aria-describedby="sizing-addon1" required>
                     </div>
-                    <button type="submit" v-on:click="submitContact" class="btn btn-lg btn-primary">Скидка - это хорошо!</button>
+                    <button type="submit" class="btn btn-lg btn-primary">Скидка - это хорошо!</button>
                 </form>
             </div>
         </div>
