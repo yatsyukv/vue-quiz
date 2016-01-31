@@ -119,6 +119,9 @@ window.onload = function () {
                     'test_data': JSON.stringify(this.test_progress),
                     'contact_data': JSON.stringify(this.contact_data)
                 };
+                return;
+
+                //possibly submit data somewhere
                 console.log(submitData);
                 this.$http.post('/test/submit', submitData, function (data) {
                     if (data.result === 'success') {
