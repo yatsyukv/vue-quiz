@@ -116,8 +116,8 @@ window.onload = function () {
                 e.preventDefault();
                 console.log(e);
                 var submitData = {
-                    'test_data': JSON.stringify(this.test_progress),
-                    'contact_data': JSON.stringify(this.contact_data)
+                    'test_data': this.test_progress,
+                    'contact_data': this.contact_data
                 };
                 return;
 
